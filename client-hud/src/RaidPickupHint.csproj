@@ -1,0 +1,70 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    局内拾取提示 · 客户端插件（BepInEx 5 / Unity Mono）
+    离线编译：本机无 NuGet 缓存，故禁用隐式框架引用，全部改为显式 HintPath 引用
+    游戏 Managed 目录下的 mscorlib/netstandard/System.*（Unity Mono 运行时提供）。
+  -->
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <!-- 程序集内部名保持 ASCII：BepInEx 只按文件加载，程序集名与 dll 文件名可以不同。
+         部署到 plugins 下的文件名是「大肥鱼的hud.dll」；F12 里的显示名取自 BepInPlugin 的 Name。 -->
+    <AssemblyName>RaidPickupHint</AssemblyName>
+    <RootNamespace>RaidPickupHint</RootNamespace>
+    <AssemblyTitle>大肥鱼的hud</AssemblyTitle>
+    <Product>大肥鱼的hud</Product>
+    <Authors>deepseek + keping</Authors>
+    <Company>deepseek + keping</Company>
+    <Description>局内拾取提示 HUD：捡到物品时提示它被哪个任务 / 哪个藏身处设施需要、还差多少（SPT 4.x 客户端插件）</Description>
+    <Copyright>© 2026 deepseek + keping</Copyright>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <Version>0.1.13</Version>
+    <NoWarn>$(NoWarn);MSB3277;MSB3278;MSB3248;NU1701;CS0649;CS0169;CS0414;CS0618</NoWarn>
+    <!-- 编译副产物一律移出插件目录，避免污染 BepInEx\plugins -->
+    <!-- 具体路径由 Directory.Build.props 的 BuildScratch 决定（默认＝仓库内的 _scratch\） -->
+    <BaseIntermediateOutputPath>$(BuildScratch)obj\</BaseIntermediateOutputPath>
+    <BaseOutputPath>$(BuildScratch)out\</BaseOutputPath>
+  </PropertyGroup>
+
+  <!-- Unity Mono 运行时程序集（游戏自带，随包分发，不复制） -->
+  <PropertyGroup>
+    <!-- 游戏根目录：换机器时用 -p:GameDir=X:\你的SPT 覆盖，无需改文件 -->
+    <ManagedDir>$(GameDir)\EscapeFromTarkov_Data\Managed</ManagedDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="mscorlib"><HintPath>$(ManagedDir)\mscorlib.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="netstandard"><HintPath>$(ManagedDir)\netstandard.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="System"><HintPath>$(ManagedDir)\System.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="System.Core"><HintPath>$(ManagedDir)\System.Core.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="System.Runtime"><HintPath>$(ManagedDir)\System.Runtime.dll</HintPath><Private>false</Private></Reference>
+
+    <Reference Include="UnityEngine"><HintPath>$(ManagedDir)\UnityEngine.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.CoreModule"><HintPath>$(ManagedDir)\UnityEngine.CoreModule.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.IMGUIModule"><HintPath>$(ManagedDir)\UnityEngine.IMGUIModule.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.InputLegacyModule"><HintPath>$(ManagedDir)\UnityEngine.InputLegacyModule.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.TextRenderingModule"><HintPath>$(ManagedDir)\UnityEngine.TextRenderingModule.dll</HintPath><Private>false</Private></Reference>
+    <!-- 自定义图片：Texture2D.LoadImage（PNG/JPG 解码）在 ImageConversionModule 里 -->
+    <Reference Include="UnityEngine.ImageConversionModule"><HintPath>$(ManagedDir)\UnityEngine.ImageConversionModule.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.UIModule"><HintPath>$(ManagedDir)\UnityEngine.UIModule.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.UI"><HintPath>$(ManagedDir)\UnityEngine.UI.dll</HintPath><Private>false</Private></Reference>
+
+    <!-- 游戏本体程序集：EFT 类型（Inventory / NotificationManager / Profile 等） -->
+    <Reference Include="Assembly-CSharp"><HintPath>$(ManagedDir)\Assembly-CSharp.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Assembly-CSharp-firstpass"><HintPath>$(ManagedDir)\Assembly-CSharp-firstpass.dll</HintPath><Private>false</Private></Reference>
+
+    <!-- SPT 客户端公共库：字体 / UI 辅助 / 内嵌资源 -->
+    <Reference Include="Comfort"><HintPath>$(ManagedDir)\Comfort.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Newtonsoft.Json"><HintPath>$(ManagedDir)\Newtonsoft.Json.dll</HintPath><Private>false</Private></Reference>
+
+    <!-- BepInEx 与 Harmony（插件宿主，运行时由 BepInEx 提供） -->
+    <Reference Include="BepInEx"><HintPath>$(GameDir)\BepInEx\core\BepInEx.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="0Harmony"><HintPath>$(GameDir)\BepInEx\core\0Harmony.dll</HintPath><Private>false</Private></Reference>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,7 @@
+{
+  // PickupTrackerServer 配置（v0.1.0）
+  // 记录文件固定写入：<本 mod 目录>\data\pickups.json（JSONL，每行一条拾取记录）
+  // 需求核对工具 v2 默认读取该路径；本版本配置项预留，暂不生效
+  "enabled": true,
+  "recordMovesIntoPlayerEquipment": true
+}

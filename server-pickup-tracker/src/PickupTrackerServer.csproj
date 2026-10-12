@@ -1,0 +1,78 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- 换机器时用 -p:SptDir=X:\SPT\SPT_Runtime 覆盖（SPT 服务端根目录） -->
+    <SptDir Condition="'$(SptDir)' == ''">D:\tkf\SPT_Runtime</SptDir>
+    <!-- .NET 10 运行时程序集目录：默认取本机 dotnet 安装位置 -->
+    <NetCoreAppDir Condition="'$(NetCoreAppDir)' == ''">$([MSBuild]::NormalizeDirectory('$(NetCoreRoot)', 'shared', 'Microsoft.NETCore.App', '10.0.9'))</NetCoreAppDir>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <AssemblyName>PickupTrackerServer</AssemblyName>
+    <RootNamespace>PickupTrackerServer</RootNamespace>
+    <!-- 署名（写入 dll 文件属性，右键属性可见；与客户端插件「大肥鱼的hud」一致） -->
+    <Authors>deepseek + keping</Authors>
+    <Company>deepseek + keping</Company>
+    <Product>PickupTrackerServer</Product>
+    <Version>0.2.3</Version>
+    <NoWarn>$(NoWarn);MSB3277;MSB3278;MSB3248;CS0649;CS0169;CS0414</NoWarn>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <!-- SPT 4.1.6 是 net10.0 程序集；本机暂无 SDK10，故引用已装的 10.0.9 运行时程序集对齐 System.Runtime 版本（运行时最终由 SPT 服务的 net10 承载） -->
+  <ItemGroup>
+    <Reference Include="System.Private.CoreLib"><HintPath>$(NetCoreAppDir)\System.Private.CoreLib.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="System.Runtime"><HintPath>$(NetCoreAppDir)\System.Runtime.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="System.Collections"><HintPath>$(NetCoreAppDir)\System.Collections.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="System.Collections.Concurrent"><HintPath>$(NetCoreAppDir)\System.Collections.Concurrent.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="System.Linq"><HintPath>$(NetCoreAppDir)\System.Linq.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="System.IO"><HintPath>$(NetCoreAppDir)\System.IO.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="System.Threading"><HintPath>$(NetCoreAppDir)\System.Threading.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="System.Threading.Tasks"><HintPath>$(NetCoreAppDir)\System.Threading.Tasks.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="netstandard"><HintPath>$(NetCoreAppDir)\netstandard.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="System.Text.Json"><HintPath>$(NetCoreAppDir)\System.Text.Json.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="System.Text.Encodings.Web"><HintPath>$(NetCoreAppDir)\System.Text.Encodings.Web.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="System.Text.RegularExpressions"><HintPath>$(NetCoreAppDir)\System.Text.RegularExpressions.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="System.Memory"><HintPath>$(NetCoreAppDir)\System.Memory.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="System.Buffers"><HintPath>$(NetCoreAppDir)\System.Buffers.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="System.Numerics.Vectors"><HintPath>$(NetCoreAppDir)\System.Numerics.Vectors.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe"><HintPath>$(NetCoreAppDir)\System.Runtime.CompilerServices.Unsafe.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="System.Globalization"><HintPath>$(NetCoreAppDir)\System.Globalization.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="System.ComponentModel"><HintPath>$(NetCoreAppDir)\System.ComponentModel.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="System.Reflection"><HintPath>$(NetCoreAppDir)\System.Reflection.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="System.Runtime.InteropServices"><HintPath>$(NetCoreAppDir)\System.Runtime.InteropServices.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="System.Diagnostics.Debug"><HintPath>$(NetCoreAppDir)\System.Diagnostics.Debug.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="System.Collections.Immutable"><HintPath>$(NetCoreAppDir)\System.Collections.Immutable.dll</HintPath><Private>false</Private></Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="SPTarkov.Common">
+      <HintPath>$(SptDir)\SPTarkov.Common.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="SPTarkov.Server.Core">
+      <HintPath>$(SptDir)\SPTarkov.Server.Core.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="SPTarkov.Reflection">
+      <HintPath>$(SptDir)\SPTarkov.Reflection.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="SPTarkov.DI">
+      <HintPath>$(SptDir)\SPTarkov.DI.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="HarmonyLib">
+      <HintPath>$(SptDir)\0Harmony.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="SemanticVersioning">
+      <HintPath>$(SptDir)\SemanticVersioning.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,15 @@
+<Project>
+
+  <!--
+    中间产物默认写到仓库内的 _scratch\server\（已 gitignore）——
+    mod 目录会被 SPT 全量扫描，obj\ / NuGet\ 绝不能落在那里。
+    换机器时命令行覆盖即可：-p:SptDir=X:\SPT\SPT_Runtime -p:BuildScratch=D:\tmp\scratch\
+  -->
+  <PropertyGroup>
+    <BuildScratch Condition="'$(BuildScratch)' == ''">$(MSBuildThisFileDirectory)..\..\_scratch\server\</BuildScratch>
+    <BaseIntermediateOutputPath>$(BuildScratch)obj\</BaseIntermediateOutputPath>
+    <MSBuildProjectExtensionsPath>$(BuildScratch)obj\</MSBuildProjectExtensionsPath>
+    <BaseOutputPath>$(BuildScratch)out\</BaseOutputPath>
+  </PropertyGroup>
+
+</Project>

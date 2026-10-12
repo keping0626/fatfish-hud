@@ -1,0 +1,19 @@
+<Project>
+
+  <!--
+    必须在 Microsoft.Common.props 导入之前设置，否则 MSBuild 会先按默认值
+    在插件目录下创建 obj\（BepInEx\plugins 只应放插件本体与数据文件）。
+
+    路径＝仓库内的 _scratch\（已在 .gitignore 中排除）。
+    换机器时无需改本文件，命令行覆盖即可：
+      dotnet build ... -p:GameDir=X:\你的SPT -p:BuildScratch=D:\tmp\scratch\
+  -->
+  <PropertyGroup>
+    <!-- 游戏根目录（Managed\ 与 BepInEx\core\ 都由它推导） -->
+    <GameDir Condition="'$(GameDir)' == ''">D:\tkf</GameDir>
+    <BuildScratch Condition="'$(BuildScratch)' == ''">$(MSBuildThisFileDirectory)..\..\_scratch\</BuildScratch>
+    <BaseIntermediateOutputPath>$(BuildScratch)obj\</BaseIntermediateOutputPath>
+    <MSBuildProjectExtensionsPath>$(BuildScratch)obj\</MSBuildProjectExtensionsPath>
+  </PropertyGroup>
+
+</Project>

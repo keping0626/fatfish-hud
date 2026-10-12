@@ -1,0 +1,39 @@
+# ── 构建产物 ─────────────────────────────────────────────
+_scratch/
+obj/
+bin/
+*.obj
+*.pdb
+*.user
+__pycache__/
+*.pyc
+
+# ── 运行时生成的个人数据（绝不提交）─────────────────────
+# 客户端插件在 BepInEx\config\ 下生成的三件套
+*.cfg
+deepseek.keping.raidpickuphint.targets.json
+deepseek.keping.raidpickuphint.images/
+# 需求快照含本机存档 ID
+needs_snapshot.json
+# 服务端 mod 的局内拾取记录与诊断日志
+pickups.json
+pickups.json.*
+_raid_diag.jsonl
+data/
+# 需求核对工具的报告（含你的角色名与等级，不提交）
+output/
+
+# ── 凭据（任何形式的密钥都不进仓库）────────────────────
+.env
+.env.*
+*.key
+*.pem
+credentials.*
+.credentials.yaml
+secrets.*
+token.txt
+
+# ── 系统 ────────────────────────────────────────────────
+Thumbs.db
+desktop.ini
+.DS_Store
